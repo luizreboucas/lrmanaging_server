@@ -51,7 +51,7 @@ export default class UserController{
 			const id = req.params.id
 			const {nome, email,senhaPlainText} = req.body
 
-			const user = await (await client.query(`SELECT * from users WHERE id = '${id}';`)).rows[0]
+			const user = await (await client.query(`SELECT * from categories WHERE id = '${id}';`)).rows[0]
 			const salt = await bcrypt.genSalt()
 			const updatedUser = {
 				nome: nome? nome: user.nome,
