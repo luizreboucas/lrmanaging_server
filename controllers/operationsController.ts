@@ -12,7 +12,13 @@ export default class OperationsController{
 				descricao,
 				valor, 
 			} = req.body
-			const newOperation = await client.query(`INSERT INTO operations(id, categoria_id, subcategoria_id, descricao, valor) VALUES ('${id}', '${categoria_id}', '${subcategoria_id}','${descricao}', '${valor}');`)
+			if(subcategoria_id){
+				const newOperation = await client.query(`INSERT INTO operations(id, categoria_id, subcategoria_id, descricao, valor) VALUES ('${id}', '${categoria_id}', '${subcategoria_id}','${descricao}', '${valor}');`)
+			}
+			else{
+				const newOperation = await client.query(`INSERT INTO operations(id, categoria_id, subcategoria_id, descricao, valor) VALUES ('${id}', '${categoria_id}','${descricao}', '${valor}');`)
+			} 
+			
 			res.status(201).send('operação cadastrada com sucesso!')
 		} catch (error) {
 			res.status(500).json({error})
