@@ -16,7 +16,7 @@ export default class OperationsController{
 				const newOperation = await client.query(`INSERT INTO operations(id, categoria_id, subcategoria_id, descricao, valor) VALUES ('${id}', '${categoria_id}', '${subcategoria_id}','${descricao}', '${valor}');`)
 			}
 			else{
-				const newOperation = await client.query(`INSERT INTO operations(id, categoria_id, subcategoria_id, descricao, valor) VALUES ('${id}', '${categoria_id}','${descricao}', '${valor}');`)
+				const newOperation = await client.query(`INSERT INTO operations(id, categoria_id, subcategoria_id, descricao, valor) VALUES ('${id}', '${categoria_id}','7a81f669-da5b-47f8-9705-63f1fb9147a7','${descricao}', '${valor}');`)
 			} 
 			
 			res.status(201).send('operação cadastrada com sucesso!')
