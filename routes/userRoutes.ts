@@ -5,7 +5,7 @@ const Router = express.Router()
 
 Router
 	.get('/users', UserController.getUsers )
-	.get('/:id', UserController.getUser)
+	.get('/users/:id', UserController.getUser)
 	.post('/users', UserController.postUser)
 	.put('/users/:id', UserController.updateUser)
 	.delete('/users/:id', UserController.deleteUser)
