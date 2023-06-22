@@ -31,4 +31,12 @@ export default class Categories{
 			return error
 		}
 	}
+
+	public getId(){
+		return this.id
+	}
+
+	public getNome(){
+		return this.nome
+	}
 }
