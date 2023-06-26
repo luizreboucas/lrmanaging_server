@@ -8,6 +8,8 @@ const env = load({
 })
 
 export default class LoginController{
+
+	
 	public static login = async(req:Request, res:Response) => {
 		try {
 			const {email,senha} = req.body
@@ -27,6 +29,19 @@ export default class LoginController{
 			
 		} catch (error) {
 			res.status(500).json({message: 'deu ruim'})
+		}
+	}
+	
+	public static validate = async(req: Request, res: Response) => {
+		try {
+			const token = await req.headers.token
+			if(token){
+				res.status(200).send('confirmed')
+			}else{
+				res.status(401).send('authorization failed')
+			}
+		} catch (error) {
+			res.status(500).send('internal server error: ' + error)
 		}
 	}
 }
