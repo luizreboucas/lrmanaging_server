@@ -2,18 +2,12 @@ import client from '../config/bdConfig.js'
 import { Request, Response } from 'express'
 import { v4 } from 'uuid'
 import bcrypt from 'bcrypt'
-
-interface UserInterface{
-    id?: string,
-    nome: string,
-    email: string,
-    senha: string
-}
+import Users from '../models/Users.js'
 
 export default class UserController{
 	public static getUsers = async(req: Request, res: Response) => {
 		try {
-			const users = (await client.query('SELECT * FROM users;')).rows
+			const users = await Users.findAll()
 			res.status(200).json(users)
 		} catch (error) {
 			res.status(500).json({message: error})
@@ -22,11 +16,9 @@ export default class UserController{
 
 	public static getUser = async(req: Request, res: Response) => {
 		try {
-			const id = req.params.id
-			const user =  (await client.query(`SELECT * FROM users WHERE id = '${id}' `)).rows
+			const user = await Users.find(req.params.id)
 			res.status(200).json(user)
 		} catch (error) {
-			const id = req.params.id
 			
 			res.status(500).json({message: error})
 		}
@@ -34,13 +26,11 @@ export default class UserController{
 
 	public static postUser = async(req: Request, res: Response) => {
 		try {
-			const id = v4()
 			const {nome, email,senha} = req.body
-			const salt = await bcrypt.genSalt()
-			const senhaHash = await bcrypt.hash(senha, salt)
-			const query = (await client.query(`INSERT INTO users (id,nome,email,senha) VALUES ('${id}','${nome}','${email}','${senhaHash}');`))
-			const newUser = await client.query(`SELECT * FROM users WHERE id = '${id}';`)
-			res.status(201).json({message: 'novo usuário criado com sucesso', newUser: newUser.rows})
+			const newUser = new Users({nome,email,senha})
+			await newUser.hashPassword()
+			newUser.save()
+			res.status(201).json({message: 'novo usuário criado com sucesso', newUser: Users.find(newUser.getId())})
 		} catch (error) {
 			res.status(500).json({error})
 		}
@@ -71,7 +61,7 @@ export default class UserController{
 	public static deleteUser = async(req: Request, res:Response) => {
 		try {
 			const id = req.params.id
-			await client.query(`DELETE FROM users WHERE id = '${id}'`)
+			await Users.delete(id)
 			res.status(200).json({message: 'usuário deletado com sucesso'})
 		} catch (error) {
 			res.status(500).json({error})

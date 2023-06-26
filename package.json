@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "jest",
+    "test": "vitest",
     "dev": "nodemon src/server.ts"
   },
   "author": "",
@@ -24,7 +24,8 @@
     "nodemon": "^2.0.22",
     "ts-dotenv": "^0.9.1",
     "ts-node": "^10.9.1",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "vitest": "^0.32.2"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",

@@ -4,5 +4,6 @@ const Router = express.Router()
 
 Router  
 	.get('/categories',CategoriesController.getCategories)
+	.post('/categories',CategoriesController.postCategories)
 
 export default Router
