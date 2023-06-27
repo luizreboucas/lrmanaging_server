@@ -5,7 +5,9 @@ import client from '../config/bdConfig.js'
 interface IUser{
     nome: string,
     email: string,
-    senha: string
+    senha: string,
+	organization_id: string,
+	is_admin: boolean | undefined
 }
 //id,nome,email,senha
 export default class Users{
@@ -13,14 +15,17 @@ export default class Users{
 	private nome
 	private email
 	private senha
+	private organization
+	private is_admin
 
-	constructor({nome,email,senha}: IUser){
+	constructor({nome,email,senha,organization_id,is_admin}: IUser){
 		
 		this.id = v4()
 		this.nome = nome
 		this.email = email
 		this.senha = senha
-		
+		this.organization = organization_id
+		this.is_admin = is_admin
 	}
 
 	public async hashPassword(){
@@ -30,11 +35,13 @@ export default class Users{
 
 	public async save(){
 		try {
-			await client.query(`INSERT INTO users (id,nome,email,senha) VALUES ('${this.id}','${this.nome}','${this.email}','${this.senha}');`)
+			await client.query(`INSERT INTO users (id,nome,email,senha, organization_id,is_admin) VALUES ('${this.id}','${this.nome}','${this.email}','${this.senha}','${this.organization}','${this.is_admin}';);`)
 			return {
 				id: this.id,
 				nome: this.nome,
-				email: this.email
+				email: this.email,
+				organization: this.organization,
+				isAdmin: this.is_admin
 			}
 		} catch (error) {
 			return {error}

@@ -26,8 +26,8 @@ export default class UserController{
 
 	public static postUser = async(req: Request, res: Response) => {
 		try {
-			const {nome, email,senha} = req.body
-			const newUser = new Users({nome,email,senha})
+			const {nome, email,senha,organization_id,is_admin} = req.body
+			const newUser = new Users({nome,email,senha,organization_id,is_admin})
 			await newUser.hashPassword()
 			newUser.save()
 			res.status(201).json({message: 'novo usuário criado com sucesso', newUser: Users.find(newUser.getId())})
