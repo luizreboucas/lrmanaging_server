@@ -13,4 +13,13 @@ export default class OrganizationsController{
 			res.status(500).json({error})
 		}
 	}
+
+	public static getOrganizations = async(req: Request, res: Response) => {
+		try {
+			const organizations = await Organizations.findAll()
+			res.status(200).json(organizations)
+		} catch (error) {
+			res.status(500).json({error})
+		}
+	}
 }

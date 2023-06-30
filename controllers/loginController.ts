@@ -20,7 +20,7 @@ export default class LoginController{
 			}
 			const checaSenha = await bcrypt.compare(senha, user.senha)
 			if(checaSenha){
-				const token = await jwt.sign(user.id, env.SECRET)
+				const token = await jwt.sign(user, env.SECRET)
 				
 				res.status(200).json({token})
 			}else{

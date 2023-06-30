@@ -34,4 +34,13 @@ export default class Organizations{
 			return {error}
 		}
 	}
+
+	public static async findAll(){
+		try {
+			const result = await client.query('SELECT * FROM organizations;')
+			return result.rows
+		} catch (error) {
+			return { error }
+		}
+	}
 }

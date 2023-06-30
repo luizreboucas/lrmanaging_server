@@ -41,4 +41,13 @@ export default class Operations{
 			return error
 		}
 	}
+
+	public static async findByOrganization(organization_id: string){
+		try {
+			const query = await client.query(`SELECT * FROM organizations WHERE id = '${organization_id}';`)
+			return query.rows
+		} catch (error) {
+			return {error}
+		}
+	}
 }
