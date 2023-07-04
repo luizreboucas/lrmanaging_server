@@ -6,18 +6,21 @@ import operationsRoutes from './operationsRoutes.js'
 import categoryRoutes from './categoryRoutes.js'
 import subcategoryRoutes from './subcategoryRoutes.js'
 import organizationsRoutes from './organizationsRoutes.js'
+import cookieParser from 'cookie-parser'
 
 const Router = express.Router()
 
 const routes = (app: Express) => {
 	app.use(cors())
+	app.use(cookieParser())
 	app.use(express.json())
 	app.use(categoryRoutes)
 	app.use(subcategoryRoutes)
 	app.use(operationsRoutes)
 	app.use(organizationsRoutes)
-	app.use(userRoutes)
 	app.use(loginRoutes)
+	app.use(userRoutes)
+	
 	
 }
 

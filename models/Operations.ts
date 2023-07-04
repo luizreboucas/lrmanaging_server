@@ -5,7 +5,9 @@ interface IOperations{
     categoria_id: string,
     subcategoria_id: string | undefined,
     descricao: string,
-    valor: number
+    valor: number,
+	organization_id: string
+	
 }
 export default class Operations{
 	private id
@@ -13,18 +15,22 @@ export default class Operations{
 	private subcategoria_id
 	private descricao
 	private valor
+	private organization_id
+	
 
-	constructor({categoria_id, subcategoria_id = '', descricao, valor}: IOperations){
+	constructor({categoria_id, subcategoria_id = '2863f24a-6c14-4741-8ccf-d832675840cf', descricao, valor, organization_id }: IOperations){
 		this.id = v4()
 		this.categoria_id = categoria_id
 		this.subcategoria_id = subcategoria_id
 		this.descricao = descricao
 		this.valor = valor
+		this.organization_id = organization_id
+		
 	}
 
 	public async save(){
 		try {
-			const query = await client.query(`INSERT INTO operations(id, categoria_id, subcategoria_id, descricao, valor) VALUES ('${this.id}', '${this.categoria_id}', '${this.subcategoria_id}','${this.descricao}', '${this.valor}');`)
+			const query = await client.query(`INSERT INTO operations (id, categoria_id, subcategoria_id, descricao, valor,  organization_id) VALUES ('${this.id}', '${this.categoria_id}', '${this.subcategoria_id}','${this.descricao}', '${this.valor}','${this.organization_id}');`)
 			return query.rows
 			
 		} catch (error) {
@@ -44,7 +50,7 @@ export default class Operations{
 
 	public static async findByOrganization(organization_id: string){
 		try {
-			const query = await client.query(`SELECT * FROM organizations WHERE id = '${organization_id}';`)
+			const query = await client.query(`SELECT * FROM operations WHERE organization_id = '${organization_id}';`)
 			return query.rows
 		} catch (error) {
 			return {error}

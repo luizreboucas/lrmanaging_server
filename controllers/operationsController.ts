@@ -10,9 +10,10 @@ export default class OperationsController{
 				categoria_id,
 				subcategoria_id,
 				descricao,
-				valor, 
+				valor,
+				organization_id
 			} = req.body
-			const newOne = new Operations({categoria_id,subcategoria_id,descricao,valor})
+			const newOne = new Operations({categoria_id,subcategoria_id,descricao,valor, organization_id})
 			const response = await newOne.save()
 			
 			res.status(201).json({message: 'operação cadastrada com sucesso!', response})

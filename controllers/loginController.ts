@@ -8,7 +8,7 @@ const env = load({
 })
 
 export default class LoginController{
-
+	
 	
 	public static login = async(req:Request, res:Response) => {
 		try {
@@ -20,9 +20,8 @@ export default class LoginController{
 			}
 			const checaSenha = await bcrypt.compare(senha, user.senha)
 			if(checaSenha){
-				const token = await jwt.sign(user, env.SECRET)
-				
-				res.status(200).json({token})
+				const token = await jwt.sign({...user, senha: ''}, env.SECRET)
+				res.status(200).json({user: {...user, senha: ''},token})
 			}else{
 				res.status(403).send('email ou senha incorretos')
 			}
@@ -34,14 +33,27 @@ export default class LoginController{
 	
 	public static validate = async(req: Request, res: Response) => {
 		try {
-			const token = await req.headers.token
+			const token = req.headers.token
 			if(token){
-				res.status(200).send('confirmed')
+				res
+					
+					.status(200)
+					.send('autorizado')
 			}else{
 				res.status(401).send('authorization failed')
 			}
 		} catch (error) {
 			res.status(500).send('internal server error: ' + error)
+		}
+	}
+	public static getCookie = async(req: Request, res: Response) => {
+		try {
+			const { userId } = req.params
+			const token = await jwt.sign({id: userId}, env.SECRET)
+			res.cookie('token', `${token}`)
+			res.send('chegou aqui')
+		} catch (error) {
+			res.status(500).send('deu ruim')
 		}
 	}
 }
